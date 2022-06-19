@@ -127,7 +127,7 @@ def position_caps(str):
              
     return positioncaplist
 
-def getnextgpresponse():
+def get_next_gp_response():
     '''This Function returns the following GP with it's schedule as a string response.
     '''
     counterGP = getcounternextgp()

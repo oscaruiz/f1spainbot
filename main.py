@@ -17,7 +17,7 @@ def get_drivers(message):
 
 @bot.message_handler(commands=['horario'])
 def get_drivers(message):
-   response = calendargp.getnextgpresponse()
+   response = calendargp.get_next_gp_response()
    bot.reply_to(message,response)
 
 bot.polling()
