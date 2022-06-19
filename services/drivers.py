@@ -1,31 +1,29 @@
-from asyncio.windows_events import NULL
-
 from numpy import empty
 from services import beautifulsoupparser
 
-#Parse the whole HTML
-soup = beautifulsoupparser.getsoup(beautifulsoupparser.driversurl)
+# Parse the whole HTML
+soup = beautifulsoupparser.get_soup(beautifulsoupparser.driversurl)
 
-def getdrivers():
+def get_drivers():
     '''This Function returns a list of string with the F1 drivers ordered by 
     their position in the F1 ranking.
     '''
-    #We parse all the drivers in the HTML
+    # We parse all the drivers in the HTML
     parsedDrivers = soup.find_all('span', class_ = 'name')
     driversList = list()
 
-    #We get the name of the driver
+    # We get the name of the driver
     for parsedDriver in parsedDrivers:
         driversList.append(parsedDriver.text)
 
     return driversList
 
-def getdriversscore():
+def get_drivers_score():
     '''This Function returns a list of string with the points of the F1 drivers ordered by 
     their position in the F1 ranking.
     '''
 
-    #We parse all the drivers scores in the HTML
+    # We parse all the drivers scores in the HTML
     parsedScores = soup.find_all('td', class_ = 'ms-table_cell ms-table_field--total_points')
     scoresList = list()
 
@@ -34,15 +32,15 @@ def getdriversscore():
 
     return scoresList
 
-def getdriverresponse():
+def get_drivers_response():
     '''This Function returns a string response of the drivers list with their score in  
     the F1 championship.
     '''
 
     response="Clasificación de pilotos - F1"+"\n"
     response+="----------------------------------------------"+"\n"
-    drivers = getdrivers()
-    driverScore = getdriversscore()
+    drivers = get_drivers()
+    driverScore = get_drivers_score()
     
     i=0
     for driver in drivers:

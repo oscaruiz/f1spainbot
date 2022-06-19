@@ -7,18 +7,17 @@ bot = telebot.TeleBot('API_KEY')
 
 @bot.message_handler(commands=['pilotos'])
 def get_drivers(message):
-    response=drivers.getdriverresponse()
-    bot.reply_to(message, response)
+    response=drivers.get_drivers_response()
+    bot.reply_to(message,response)
 
 @bot.message_handler(commands=['escuderias'])
 def get_drivers(message):
-    response=teams.getteamsresponse()
-    bot.reply_to(message, response)
+    response=teams.get_teams_response()
+    bot.reply_to(message,response)
 
 @bot.message_handler(commands=['horario'])
 def get_drivers(message):
    response = calendargp.getnextgpresponse()
-   bot.reply_to(message, response)
+   bot.reply_to(message,response)
 
 bot.polling()
-#bot.infinity_polling(True)

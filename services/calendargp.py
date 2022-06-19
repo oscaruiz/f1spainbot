@@ -3,10 +3,10 @@ from pickle import TRUE
 from urllib import response
 from services import beautifulsoupparser
 
-#Parse the HTML
-soup = beautifulsoupparser.getsoup(beautifulsoupparser.calendarurl)
+# Parse the HTML
+soup = beautifulsoupparser.get_soup(beautifulsoupparser.calendarurl)
 
-def getallgps():
+def get_all_gps():
     '''This Function returns a list of string with the GP ordered by 
     dates.
     '''
@@ -18,13 +18,13 @@ def getallgps():
     
     return gpList
 
-def getgp(gpnumber):
+def get_gp(gpnumber):
     '''This Function returns the gp of the provided number
-    +2 it is neccesary to add because of the way the GPS are stored on the HTML
+    +2 it is neccesary to add because of the way the GPS are stored in the HTML
     '''
-    return getallgps()[gpnumber+2]
+    return get_all_gps()[gpnumber+2]
 
-def getallschedules():
+def get_all_schedules():
     '''This Function returns a list of string with all the time-schedule of the GPs
     ordered by date
     '''
@@ -35,18 +35,18 @@ def getallschedules():
         schedulesList.append(schedule.text)
     return schedulesList
 
-def getschedule(gpnumber):
+def get_schedule(gpnumber):
     '''This Function returns the schedules of the provided GP number
     '''
-    return getallschedules()[gpnumber]
+    return get_all_schedules()[gpnumber]
 
-def getscheduleresponse(schedule):
+def get_schedule_response(schedule):
     '''Introduce jump of line in the schedule so it's more displayable by the bot.
     '''
     response=""
-    caps=positioncap(schedule) #Where we found a Cap letter we have to insert a \N
+    caps=position_caps(schedule) # Where we found a Cap letter we have to insert a \N
 
-    #TO DO - Improve this code
+    # TO DO - Improve this code
     i=0
     for cap in caps:
         if(i<len(caps)-1):
@@ -56,7 +56,7 @@ def getscheduleresponse(schedule):
 
     return response
 
-def getallenddates():
+def get_all_enddates():
     '''This Function returns a list of string with the finalization dates of the GP
     '''
     parseredEndates = soup.find_all('meta', itemprop = 'endDate')
@@ -67,14 +67,14 @@ def getallenddates():
 
     return endDateList
 
-def getallenddatesformated():
+def get_all_enddates_formated():
     '''Converts all the endDates string format
     '''
-    notFormattedList = getallenddates()
+    notFormattedList = get_all_enddates()
     formattedList = list()
     counter = 0
     for i in notFormattedList:
-        formattedList.append(convertgptodate(notFormattedList[counter]))
+        formattedList.append(convert_gp_to_date(notFormattedList[counter]))
         counter+=1
         
     return formattedList
@@ -84,15 +84,15 @@ def getcounternextgp():
     '''
     global counterGP
     counterGP = 0 
-    listEndDates = getallenddatesformated()
+    listEndDates = get_all_enddates_formated()
 
     for nextDate in listEndDates:
-        if(comparedates(nextDate) is not None):
+        if(compare_dates(nextDate) is not None):
             print("Counter at this moment is:"+str(counterGP))
-            return counterGP #If gpdate is bigger than today, next GP is the next race
+            return counterGP # If gpdate is bigger than today, next GP is the next race
         counterGP+=1
                   
-def comparedates(enddateGPstr):
+def compare_dates(enddateGPstr):
     '''Function that compares if the date of the finalization of the GP is bigger than today 
     returns NONE GP is already gone
     returns endateGP if date is bigger than today
@@ -100,19 +100,18 @@ def comparedates(enddateGPstr):
     today_date = date.today()
     today_datetime = datetime(today_date.year, today_date.month, today_date.day)
     
-    #Transforms String enddateGP into date, in order to be able to compare it
+    # Transforms String enddateGP into date, in order to be able to compare it
     enddateGPdate = datetime.strptime(enddateGPstr, "%Y-%m-%d")
 
     if(enddateGPdate>=today_datetime):
-        #print("endDate: "+str(enddateGPdate)+" y hoy es:"+str(today_datetime))
         return enddateGPdate
 
-def convertgptodate(gpdate):
+def convert_gp_to_date(gpdate):
     '''Converts any string to a substring in date format (YY-MM-D).
     '''
     return gpdate.rpartition("T")[0]
 
-def positioncap(str):
+def position_caps(str):
     '''Returns a list the position of the capital letter of the given string.
     '''
     stcounter=0
@@ -121,7 +120,6 @@ def positioncap(str):
 
     for i in str:
         if i.isupper():
-            #print("esta letra es mayus")
             numCaps+=1
             positioncaplist.append(stcounter)
         
@@ -135,9 +133,9 @@ def getnextgpresponse():
     counterGP = getcounternextgp()
     response="Próximo Gran Premio de Fórmula 1"+"\n"
     response+="----------------------------------------------"+"\n"
-    followingGPresponse = getgp(counterGP)
-    followingGPSchedule = getschedule(counterGP)
-    followingGPScheduleResponse = getscheduleresponse(followingGPSchedule)
+    followingGPresponse = get_gp(counterGP)
+    followingGPSchedule = get_schedule(counterGP)
+    followingGPScheduleResponse = get_schedule_response(followingGPSchedule)
 
     response+=followingGPresponse+"\n"+"\n"
 
