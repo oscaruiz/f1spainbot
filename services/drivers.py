@@ -1,14 +1,18 @@
 from numpy import empty
 from services import beautifulsoupparser
 
-# Parse the whole HTML
-soup = beautifulsoupparser.get_soup(beautifulsoupparser.driversurl)
+def get_soup_drivers():
+    '''This Function parses the HTML for the drivers.
+    '''
+    soup = beautifulsoupparser.get_soup(beautifulsoupparser.driversurl)
+    return soup
 
 def get_drivers():
     '''This Function returns a list of string with the F1 drivers ordered by 
     their position in the F1 ranking.
     '''
     # We parse all the drivers in the HTML
+    soup = get_soup_drivers()
     parsedDrivers = soup.find_all('span', class_ = 'name')
     driversList = list()
 
@@ -24,6 +28,7 @@ def get_drivers_score():
     '''
 
     # We parse all the drivers scores in the HTML
+    soup = get_soup_drivers()
     parsedScores = soup.find_all('td', class_ = 'ms-table_cell ms-table_field--total_points')
     scoresList = list()
 
@@ -46,10 +51,11 @@ def get_drivers_response():
     for driver in drivers:
         response+=str(i+1)+")"+driver+"- "
 
-        if(driverScore[i]==""):
+        score=driverScore[i]
+        if(score==""):
             response+="0"+"\n"
         else:
-            response+=driverScore[i]+"\n"
+            response+=score+"\n"
 
         i+=1
 

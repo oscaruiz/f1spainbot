@@ -1,12 +1,17 @@
 from services import beautifulsoupparser 
-# Parse the HTML
-soup = beautifulsoupparser.get_soup(beautifulsoupparser.teamurl)
+
+def get_soup_teams():
+    '''This Function parses the HTML for the teams.
+    '''
+    soup = beautifulsoupparser.get_soup(beautifulsoupparser.teamurl)
+    return soup
 
 def get_teams():
     '''This Function returns a list of string with the F1 teams ordered by 
     their position in the F1 ranking.
     '''
     # We parse all the teams in the HTML
+    soup = get_soup_teams()
     parsedTeams = soup.find_all('span', class_ = 'name')
     teamsList = list()
 
@@ -22,6 +27,7 @@ def get_teams_score():
     '''
 
     # We parse all the drivers scores in the HTML
+    soup = get_soup_teams()
     parsedScores = soup.find_all('td', class_ = 'ms-table_cell ms-table_field--total_points')
     scoresList = list()
 
@@ -43,10 +49,11 @@ def get_teams_response():
     for team in teams:
         response+=str(i+1)+")"+team+"- "
         
-        if(teamsScore[i]==""):
+        score=teamsScore[i]
+        if(score==""):
             response+="0"+"\n"
         else:
-            response+=teamsScore[i]+"\n"
+            response+=score+"\n"
 
         i+=1
 
