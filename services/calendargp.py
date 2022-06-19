@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import date, datetime
 from pickle import TRUE
 from urllib import response
 from services import beautifulsoupparser
-#import beautifulsoupparser
+
 #Parse the HTML
 soup = beautifulsoupparser.getsoup(beautifulsoupparser.calendarurl)
 
@@ -41,7 +41,7 @@ def getschedule(gpnumber):
     return getallschedules()[gpnumber]
 
 def getscheduleresponse(schedule):
-    '''Introduce jum of line in the schedule so it's more displayable by the bot.
+    '''Introduce jump of line in the schedule so it's more displayable by the bot.
     '''
     response=""
     caps=positioncap(schedule) #Where we found a Cap letter we have to insert a \N
@@ -97,11 +97,14 @@ def comparedates(enddateGPstr):
     returns NONE GP is already gone
     returns endateGP if date is bigger than today
     '''
-    today = datetime.today()
+    today_date = date.today()
+    today_datetime = datetime(today_date.year, today_date.month, today_date.day)
+    
     #Transforms String enddateGP into date, in order to be able to compare it
     enddateGPdate = datetime.strptime(enddateGPstr, "%Y-%m-%d")
 
-    if(enddateGPdate>today):
+    if(enddateGPdate>=today_datetime):
+        #print("endDate: "+str(enddateGPdate)+" y hoy es:"+str(today_datetime))
         return enddateGPdate
 
 def convertgptodate(gpdate):
