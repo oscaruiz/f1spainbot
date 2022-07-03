@@ -16,3 +16,4 @@ def get_soup(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.content,'html.parser')
     return soup
+    

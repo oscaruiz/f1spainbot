@@ -143,3 +143,4 @@ def get_next_gp_response():
     response+="----------------------------------------------"+"\n"
     response+=followingGPScheduleResponse
     return response
+    
