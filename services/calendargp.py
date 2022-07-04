@@ -79,6 +79,11 @@ def get_all_enddates_formated():
         
     return formattedList
 
+def get_enddate_formatted(gpnumber):
+    '''This Function returns the enddate of the actualGP as a String
+    '''
+    return get_all_enddates_formated()[gpnumber]
+
 def getcounternextgp():
     '''Function that will return the number of the following GP
     '''
@@ -143,4 +148,3 @@ def get_next_gp_response():
     response+="----------------------------------------------"+"\n"
     response+=followingGPScheduleResponse
     return response
-    
