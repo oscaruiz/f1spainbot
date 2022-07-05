@@ -1,5 +1,6 @@
 from datetime import date, datetime
 import os
+from pickle import TRUE
 import telebot
 from services import drivers,teams,calendargp
 
@@ -31,9 +32,7 @@ def get_drivers(message):
 
         responsePilotos=response
         datePilotos=calendargp.get_enddate_formatted(calendargp.getcounternextgp())
-        print("Response pilotos ahora es: "+response)
-        print("datePilotos ahora es: "+datePilotos)
-
+        
 @bot.message_handler(commands=['escuderias'])
 def get_teams(message):
     '''This Function ask the bot to retrieve the F1 teams championship ordered by points.
@@ -61,13 +60,15 @@ def get_schedules(message):
     bot.reply_to(message,response)
 
 def compare_enddate_withActual(oldEnddateGPstr):
-    '''Compares the paramete endDate with the next EndDate and returns true if it's the same.
+    '''Compares the paramete endDate with the next EndDate and returns true if it's the same. Also
     '''
     # Transforms String old_enddateGP into date, in order to be able to compare it
     oldEnddateGPdate = datetime.strptime(oldEnddateGPstr, "%Y-%m-%d")
-    todayEnddate = datetime.strptime(calendargp.get_enddate_formatted(calendargp.getcounternextgp()),"%Y-%m-%d")
+    todaysEnddate = datetime.strptime(calendargp.get_enddate_formatted(calendargp.getcounternextgp()),"%Y-%m-%d")
+    today_date = date.today()
+    today_datetime = datetime(today_date.year, today_date.month, today_date.day)
 
-    return oldEnddateGPdate == todayEnddate
+    if oldEnddateGPdate == todaysEnddate and today_datetime != todaysEnddate:
+        return TRUE
 
 bot.polling()
-
