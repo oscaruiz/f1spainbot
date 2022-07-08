@@ -12,14 +12,14 @@ def get_teams():
     '''
     # We parse all the teams in the HTML
     soup = get_soup_teams()
-    parsedTeams = soup.find_all('span', class_ = 'name')
-    teamsList = list()
+    parsed_teams = soup.find_all('span', class_ = 'name')
+    teams_list = list()
 
     # We get the name of the team
-    for parsedTeam in parsedTeams:
-        teamsList.append(parsedTeam.text)
+    for parsed_team in parsed_teams:
+        teams_list.append(parsed_team.text)
     
-    return teamsList
+    return teams_list
 
 def get_teams_score():
     '''This Function returns a list of string with the points of the F1 teams ordered by 
@@ -28,13 +28,13 @@ def get_teams_score():
 
     # We parse all the drivers scores in the HTML
     soup = get_soup_teams()
-    parsedScores = soup.find_all('td', class_ = 'ms-table_cell ms-table_field--total_points')
-    scoresList = list()
+    parsed_scores = soup.find_all('td', class_ = 'ms-table_cell ms-table_field--total_points')
+    scores_list = list()
 
-    for parsedScore in parsedScores:
-        scoresList.append(parsedScore.text)
+    for parsed_score in parsed_scores:
+        scores_list.append(parsed_score.text)
 
-    return scoresList
+    return scores_list
 
 def get_teams_response():
     '''This Function returns a string response of the teams list with their score in  
@@ -43,13 +43,13 @@ def get_teams_response():
     response="Clasificación de escuderías - F1"+"\n"
     response+="----------------------------------------------"+"\n"
     teams = get_teams()
-    teamsScore = get_teams_score()
+    teams_score = get_teams_score()
     
     i=0
     for team in teams:
         response+=str(i+1)+")"+team+"- "
         
-        score=teamsScore[i]
+        score=teams_score[i]
         if(score==""):
             response+="0"+"\n"
         else:
