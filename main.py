@@ -22,7 +22,7 @@ def get_drivers(message):
     global date_pilotos
     global response_pilotos
 
-    if(compare_enddate_withActual(date_pilotos)):
+    if(compare_enddate_with_actual(date_pilotos)):
         bot.reply_to(message,response_pilotos)
     else:
         waiting="Un momento, déjame consultar el mundial de pilotos..."
@@ -41,7 +41,7 @@ def get_teams(message):
     global date_escuderias
     global response_escuderias
     
-    if(compare_enddate_withActual(date_escuderias)):
+    if(compare_enddate_with_actual(date_escuderias)):
         bot.reply_to(message,response_escuderias)
     else:
         waiting="Un momento, déjame consultar el mundial de pilotos..."
@@ -59,7 +59,7 @@ def get_schedules(message):
     response = calendargp.get_next_gp_response()
     bot.reply_to(message,response)
 
-def compare_enddate_withActual(old_enddategp_str):
+def compare_enddate_with_actual(old_enddategp_str):
     '''Compares the parameter endDate with the next EndDate and returns true if it's the same. Also
     '''
     # Transforms String old_enddateGP into date, in order to be able to compare it
