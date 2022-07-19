@@ -1,6 +1,5 @@
 from datetime import date, datetime
 import os
-from pickle import TRUE
 import telebot
 from services import drivers,teams,calendargp
 
@@ -44,7 +43,7 @@ def get_teams(message):
     if(compare_enddate_with_actual(date_escuderias)):
         bot.reply_to(message,response_escuderias)
     else:
-        waiting="Un momento, déjame consultar el mundial de pilotos..."
+        waiting="Un momento, déjame consultar el mundial de escuderías..."
         bot.reply_to(message,waiting)
         response=teams.get_teams_response()
         bot.reply_to(message,response)
@@ -69,6 +68,8 @@ def compare_enddate_with_actual(old_enddategp_str):
     today_datetime = datetime(today_date.year, today_date.month, today_date.day)
 
     if old_enddategp_date == todays_enddate and today_datetime != todays_enddate:
-        return TRUE
+        return True
+
+
 
 bot.polling()
